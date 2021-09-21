@@ -1,0 +1,111 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webui
+  labels:
+    app: dockercoins
+    tier: front
+    environment: prod
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dockercoins
+      tier: front
+  template:
+    metadata:
+      labels:
+        app: dockercoins
+        tier: front
+        environment: prod
+    spec:
+      containers:
+        - name: webui
+          image: brahimhamdi/webui
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: webui
+  labels:
+    app: dockercoins
+    tier: front
+    environment: prod
+spec:
+  selector:
+    app: dockercoins
+    tier: front
+  type: NodePort
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+      nodePort: 30080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis
+  labels:
+    app: dockercoins
+    tier: db
+    environment: prod
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dockercoins
+      tier: db
+  template:
+    metadata:
+      labels:
+        app: dockercoins
+        tier: db
+        environment: prod
+    spec:
+      containers:
+        - name: redis
+          image: redis
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis
+spec:
+  selector:
+    app: dockercoins
+    tier: db
+  type: ClusterIP
+  ports:
+    - protocol: TCP
+      port: 6379
+      targetPort: 6379
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: back
+  labels:
+    app: dockercoins
+    tier: back
+    environment: prod
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: dockercoins
+      tier: back
+  template:
+    metadata:
+      labels:
+        app: dockercoins
+        tier: back
+        environment: prod
+    spec:
+      containers:
+        - name: worker
+          image: brahimhamdi/worker:v2
+        - name: rng
+          image: brahimhamdi/rng:v2
+        - name: hasher
+          image: brahimhamdi/hasher:v2
