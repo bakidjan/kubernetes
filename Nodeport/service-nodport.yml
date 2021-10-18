@@ -6,8 +6,11 @@ spec:
   type: Nodeport 
   ports:
   - protocol: TCP
+    # le port d'acces au service
     port: 8080
+    # le port cible des pods
     targetPort: 8080
+    # le port d'acces à l'exterieur du cluster, celui accesible par le client
     nodePort: 30008
   selector:
     app: web
