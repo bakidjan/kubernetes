@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: nodeport-service
 spec:
-  type: Nodeport 
+  type: NodePort 
   ports:
   - protocol: TCP
     # le port d'acces au service
