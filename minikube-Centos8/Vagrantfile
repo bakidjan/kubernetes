@@ -1,0 +1,17 @@
+#Autor DIALLO
+Vagrant.configure("2") do |config| 
+  config.vm.define "minikube" do |minikube|
+      minikube.vm.box = "generic/centos8"
+      minikube.vm.hostname = "minikube"
+      minikube.vm.network :private_network, ip: "192.168.201.20"
+      minikube.vm.provider "virtualbox" do |v|
+        v.name = "minikube"
+        v.memory = 3000
+        v.cpus = 2    
+      end
+
+    config.vm.provision :shell do |shell|
+      shell.path = "install_minikube.sh"
+    end
+  end
+end
