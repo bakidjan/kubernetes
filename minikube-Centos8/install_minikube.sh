@@ -20,10 +20,13 @@ sudo curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/m
 sudo chmod +x minikube
 sudo mkdir -p /usr/local/bin/
 sudo install minikube /usr/local/bin/
-sudo usermod -aG docker $USER && newgrp docker
-sudo usermod -aG root $USER
-minikube start --driver=none
-minikube status
+
+
+#après installation de minikube 
+#sudo usermod -aG docker $USER && newgrp docker
+#sudo usermod -aG root $USER
+#minikube start --driver=none
+#minikube status
 #kubectl cluster-info
 
 
